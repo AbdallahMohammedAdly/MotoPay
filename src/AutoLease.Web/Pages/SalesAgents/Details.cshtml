@@ -1,0 +1,178 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.SalesAgents.DetailsModel
+@{
+    ViewData["Title"] = "Sales Agent Details";
+}
+
+@if (Model.SalesAgent != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-tie"></i> @Model.SalesAgent.FullName
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Personal Information</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Name:</strong></td>
+                                    <td>@Model.SalesAgent.FullName</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td><a href="mailto:@Model.SalesAgent.Email">@Model.SalesAgent.Email</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phone:</strong></td>
+                                    <td><a href="tel:@Model.SalesAgent.PhoneNumber">@Model.SalesAgent.PhoneNumber</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department:</strong></td>
+                                    <td>
+                                        <span class="badge bg-primary">@Model.SalesAgent.Department</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hire Date:</strong></td>
+                                    <td>@Model.SalesAgent.HireDate.ToString("MMMM dd, yyyy")</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Performance Metrics</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Commission Rate:</strong></td>
+                                    <td>
+                                        <span class="badge bg-success fs-6">@Model.SalesAgent.CommissionRate%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Sales:</strong></td>
+                                    <td class="text-success fw-bold">@Model.SalesAgent.TotalSales.ToString("C")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cars Sold:</strong></td>
+                                    <td><span class="badge bg-info">@Model.SalesAgent.CarsSold</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>User Account:</strong></td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(Model.SalesAgent.UserId))
+                                        {
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check"></i> Linked
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-exclamation-triangle"></i> Not Linked
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.SalesAgent.Biography))
+                    {
+                        <div class="mt-4">
+                            <h5>Biography</h5>
+                            <div class="bg-light p-3 rounded">
+                                <p class="mb-0">@Model.SalesAgent.Biography</p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="mt-4 d-flex gap-2">
+                        @if (User.IsInRole("SalesAgent"))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@Model.SalesAgent.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Edit Agent
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@Model.SalesAgent.Id" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Agent
+                            </a>
+                        }
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie"></i> Quick Stats
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <h3 class="text-primary">@Model.SalesAgent.CarsSold</h3>
+                                <small class="text-muted">Cars Sold</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h3 class="text-success">@Model.SalesAgent.CommissionRate%</h3>
+                            <small class="text-muted">Commission</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <h4 class="text-success">@Model.SalesAgent.TotalSales.ToString("C")</h4>
+                        <small class="text-muted">Total Sales Volume</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-car"></i> Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentCars.Any())
+                    {
+                        <div class="small">
+                            <h6>Recently Managed Cars:</h6>
+                            @foreach (var car in Model.RecentCars.Take(5))
+                            {
+                                <div class="d-flex justify-content-between align-items-center py-1">
+                                    <span>@car.DisplayName</span>
+                                    <a asp-page="/Cars/Details" asp-route-id="@car.Id" class="btn btn-sm btn-outline-primary">
+                                        View
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted small">No recent activity</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <h4>Sales Agent Not Found</h4>
+        <p>The requested sales agent could not be found.</p>
+        <a asp-page="./Index" class="btn btn-primary">Back to Sales Agents</a>
+    </div>
+}

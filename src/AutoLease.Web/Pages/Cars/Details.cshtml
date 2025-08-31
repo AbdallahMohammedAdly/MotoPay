@@ -1,0 +1,349 @@
+@page "{id:int}"
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model AutoLease.Web.Pages.Cars.DetailsModel
+@{
+    ViewData["Title"] = $"Car Details - {Model.Car?.DisplayName}";
+}
+
+@if (Model.Car == null)
+{
+    <div class="text-center py-5">
+        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+        <h3>@Localizer["CarNotFound"]</h3>
+        <p>@Localizer["CarNotFoundDesc"]</p>
+        <a asp-page="./Index" class="btn btn-primary">@Localizer["BackToCars"]</a>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Image Carousel -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-images"></i> @Localizer["Gallery"]</h5>
+                </div>
+                <div class="card-body">
+                    @{
+                        var imageUrls = new List<string>();
+                        if (!string.IsNullOrWhiteSpace(Model.Car.ImageUrl))
+                        {
+                            var separators = new[] { ',', '\n', ';', ' ' };
+                            imageUrls = Model.Car.ImageUrl
+                                .Split(separators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                                .Where(u => u.StartsWith("http", StringComparison.OrdinalIgnoreCase) || u.StartsWith("/"))
+                                .Distinct()
+                                .ToList();
+                        }
+                    }
+                    @if (imageUrls.Count == 0)
+                    {
+                        <div class="d-flex align-items-center justify-content-center bg-light" style="height: 320px;">
+                            <i class="fas fa-car fa-3x text-muted"></i>
+                        </div>
+                    }
+                    else if (imageUrls.Count == 1)
+                    {
+                        <img src="@imageUrls[0]" class="img-fluid w-100" style="max-height: 420px; object-fit: cover;" alt="@Model.Car.DisplayName" />
+                    }
+                    else
+                    {
+                        var carouselId = $"carCarousel_{Model.Car.Id}";
+                        <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                @for (int i = 0; i < imageUrls.Count; i++)
+                                {
+                                    <button type="button" data-bs-target="#@carouselId" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : null)" aria-label="Slide @(i + 1)"></button>
+                                }
+                            </div>
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < imageUrls.Count; i++)
+                                {
+                                    <div class="carousel-item @(i == 0 ? "active" : null)">
+                                        <img src="@imageUrls[i]" class="d-block w-100" style="max-height: 420px; object-fit: cover;" alt="@Model.Car.DisplayName slide @(i+1)">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">@Localizer["Previous"]</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">@Localizer["Next"]</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-car"></i> @Model.Car.DisplayName
+                        </h4>
+                        @if (Model.Car.IsAvailable)
+                        {
+                            <span class="badge bg-success fs-6">@Localizer["Available"]</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning fs-6">@Localizer["Sold"]</span>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">@Localizer["VehicleInformation"]</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-car text-muted"></i> @Localizer["Make"]:</td>
+                                    <td>@Model.Car.Make</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-tag text-muted"></i> @Localizer["Model"]:</td>
+                                    <td>@Model.Car.Model</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-calendar text-muted"></i> @Localizer["Year"]:</td>
+                                    <td>@Model.Car.Year</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-palette text-muted"></i> @Localizer["Color"]:</td>
+                                    <td>@Model.Car.Color</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-barcode text-muted"></i> @Localizer["VIN"]:</td>
+                                    <td><code>@Model.Car.VinNumber</code></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">@Localizer["PricingAndStatus"]</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-dollar-sign text-muted"></i> @Localizer["Price"]:</td>
+                                    <td class="fs-4 text-success fw-bold">@Model.Car.Price.ToString("C")</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-info-circle text-muted"></i> @Localizer["Status"]:</td>
+                                    <td>
+                                        @if (Model.Car.IsAvailable)
+                                        {
+                                            <span class="badge bg-success">@Localizer["AvailableForPurchase"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">@Localizer["Sold"]</span>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"><i class="fas fa-clock text-muted"></i> @Localizer["Added"]:</td>
+                                    <td>@Model.Car.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                                @if (Model.Car.UpdatedAt.HasValue)
+                                {
+                                    <tr>
+                                        <td class="fw-bold"><i class="fas fa-edit text-muted"></i> @Localizer["Updated"]:</td>
+                                        <td>@Model.Car.UpdatedAt.Value.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="text-primary mb-3">@Localizer["Description"]</h5>
+                    <p class="text-muted">@Model.Car.Description</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Sales Agent Information -->
+            @if (!string.IsNullOrEmpty(Model.Car.SalesAgentName))
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-tie"></i> @Localizer["SalesAgent"]
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-circle fa-3x text-info mb-3"></i>
+                        <h6 class="card-title">@Model.Car.SalesAgentName</h6>
+                        <p class="text-muted small">@Localizer["AssignedSalesRepresentative"]</p>
+                        <button class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-phone"></i> @Localizer["ContactAgent"]
+                        </button>
+                    </div>
+                </div>
+            }
+            
+            <!-- Owner Information -->
+            @if (!string.IsNullOrEmpty(Model.Car.OwnerName))
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user"></i> @Localizer["Owner"]
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0"><strong>@Localizer["Owner"]:</strong> @Model.Car.OwnerName</p>
+                        <small class="text-muted">@Localizer["ThisVehicleHasBeenSold"]</small>
+                    </div>
+                </div>
+            }
+            
+            <!-- Available Offers -->
+            @if (Model.ActiveOffers.Any())
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-tags"></i> @Localizer["ActiveOffers"]
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var offer in Model.ActiveOffers)
+                        {
+                            <div class="border rounded p-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0">@offer.Title</h6>
+                                    <span class="badge bg-danger">@offer.DiscountLabel</span>
+                                </div>
+                                <p class="text-muted small mb-2">@offer.Description</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted">
+                                            <s>@offer.OriginalPrice.ToString("C")</s>
+                                        </small>
+                                        <div class="fw-bold text-success">@offer.DiscountedPrice.ToString("C")</div>
+                                    </div>
+                                    <a asp-page="/Offers/Details" asp-route-id="@offer.Id" class="btn btn-sm btn-outline-success">
+                                        @Localizer["ViewOffer"]
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            
+            <!-- Actions -->
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs"></i> @Localizer["Actions"]
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        @if (User.IsInRole("SalesAgent"))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@Model.Car.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> @Localizer["EditCar"]
+                            </a>
+                            
+                            @if (Model.Car.IsAvailable)
+                            {
+                                <a asp-page="/Offers/Create" asp-route-carId="@Model.Car.Id" class="btn btn-success">
+                                    <i class="fas fa-tag"></i> @Localizer["CreateOffer"]
+                                </a>
+                            }
+                            
+                            <a asp-page="./Delete" asp-route-id="@Model.Car.Id" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> @Localizer["DeleteCar"]
+                            </a>
+                        }
+                        else if (User.IsInRole("Client") && Model.Car.IsAvailable)
+                        {
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#interestModal">
+                                <i class="fas fa-heart"></i> @Localizer["ShowInterest"]
+                            </button>
+                            
+                            @if (Model.ActiveOffers.Any())
+                            {
+                                <button class="btn btn-success">
+                                    <i class="fas fa-shopping-cart"></i> @Localizer["ApplyForOffer"]
+                                </button>
+                            }
+                        }
+                        
+                        <a asp-page="./Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> @Localizer["BackToList"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interest Modal -->
+    <div class="modal fade" id="interestModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-phone"></i> @Localizer["ExpressInterestFor"] - @Model.Car.DisplayName</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" asp-page-handler="ExpressInterest">
+                        <input type="hidden" name="carId" value="@Model.Car.Id" />
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="preferredCallTime">@Localizer["PreferredTimeToCall"]</label>
+                                <input class="form-control" type="datetime-local" id="preferredCallTime" name="Interest.PreferredCallTime" required />
+                                <div class="form-text">@Localizer["ChooseSuitableTime"]</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="documents">@Localizer["UploadDocumentsImagesPdf"]</label>
+                                <input class="form-control" type="file" id="documents" name="Interest.Documents" accept="image/*,application/pdf" multiple />
+                                <div class="form-text">@Localizer["SupportedFilesAndLimit"]</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="notes">@Localizer["NotesOptional"]</label>
+                                <textarea id="notes" name="Interest.Notes" class="form-control" rows="3" maxlength="500" placeholder="@Localizer["AnyAdditionalInfo"]"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> @Localizer["Send"]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Add any interactive functionality here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Copy VIN to clipboard functionality
+            const vinCode = document.querySelector('code');
+            if (vinCode) {
+                vinCode.style.cursor = 'pointer';
+                vinCode.title = '@Localizer["ClickToCopyVIN"]';
+                vinCode.addEventListener('click', function() {
+                    navigator.clipboard.writeText(this.textContent).then(function() {
+                        // Show temporary success message
+                        const originalText = vinCode.textContent;
+                        vinCode.textContent = '@Localizer["Copied"]';
+                        vinCode.classList.add('text-success');
+                        setTimeout(function() {
+                            vinCode.textContent = originalText;
+                            vinCode.classList.remove('text-success');
+                        }, 1000);
+                    });
+                });
+            }
+        });
+    </script>
+}

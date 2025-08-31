@@ -1,0 +1,6 @@
+@Autolease.API_HostAddress = http://localhost:5063
+
+GET {{Autolease.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

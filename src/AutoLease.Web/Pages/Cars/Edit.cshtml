@@ -1,0 +1,204 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.Cars.EditModel
+@{
+    ViewData["Title"] = $"Edit Car - {Model.Input?.Make} {Model.Input?.Model}";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> Edit Car
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.Make" class="form-label">
+                                <i class="fas fa-car"></i> Make <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Make" class="form-control" placeholder="e.g., Toyota, Honda, BMW">
+                            <span asp-validation-for="Input.Make" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.Model" class="form-label">
+                                <i class="fas fa-tag"></i> Model <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Model" class="form-control" placeholder="e.g., Camry, Civic, X5">
+                            <span asp-validation-for="Input.Model" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Year" class="form-label">
+                                <i class="fas fa-calendar"></i> Year <span class="text-danger">*</span>
+                            </label>
+                            <select asp-for="Input.Year" class="form-select">
+                                <option value="">Select Year</option>
+                                @for (int year = DateTime.Now.Year + 1; year >= 2000; year--)
+                                {
+                                    <option value="@year">@year</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Input.Year" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Color" class="form-label">
+                                <i class="fas fa-palette"></i> Color <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Color" class="form-control" placeholder="e.g., Black, White, Red">
+                            <span asp-validation-for="Input.Color" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Price" class="form-label">
+                                <i class="fas fa-dollar-sign"></i> Price <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Input.Price" class="form-control" placeholder="25000" step="100">
+                            </div>
+                            <span asp-validation-for="Input.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.VinNumber" class="form-label">
+                            <i class="fas fa-barcode"></i> VIN Number <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="Input.VinNumber" class="form-control" placeholder="17-character VIN" maxlength="17" readonly>
+                        <div class="form-text">VIN Number cannot be changed after creation</div>
+                        <span asp-validation-for="Input.VinNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.Description" class="form-label">
+                            <i class="fas fa-file-text"></i> Description <span class="text-danger">*</span>
+                        </label>
+                        <textarea asp-for="Input.Description" class="form-control" rows="4" 
+                                placeholder="Detailed description of the vehicle, features, condition, etc."></textarea>
+                        <div class="form-text">Provide detailed information about the vehicle</div>
+                        <span asp-validation-for="Input.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.ImageUrl" class="form-label">
+                            <i class="fas fa-image"></i> Image URLs
+                        </label>
+                        <input asp-for="Input.ImageUrl" class="form-control" type="text" placeholder="Enter one or more URLs separated by comma, semicolon or newline">
+                        <div class="form-text">You can paste multiple URLs separated by comma, semicolon, space, or newline</div>
+                        <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.SalesAgentId" class="form-label">
+                                <i class="fas fa-user-tie"></i> Assign Sales Agent
+                            </label>
+                            <select asp-for="Input.SalesAgentId" class="form-select">
+                                <option value="">No Sales Agent Assigned</option>
+                                @foreach (var agent in Model.SalesAgents)
+                                {
+                                    <option value="@agent.Id">@agent.FullName - @agent.Department</option>
+                                }
+                            </select>
+                            <div class="form-text">Optionally assign a sales agent to this vehicle</div>
+                            <span asp-validation-for="Input.SalesAgentId" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.IsAvailable" class="form-label">
+                                <i class="fas fa-info-circle"></i> Availability Status
+                            </label>
+                            <select asp-for="Input.IsAvailable" class="form-select">
+                                <option value="true">Available for Sale</option>
+                                <option value="false">Sold / Not Available</option>
+                            </select>
+                            <div class="form-text">Change the availability status of this vehicle</div>
+                            <span asp-validation-for="Input.IsAvailable" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-page="./Details" asp-route-id="@Model.CarId" class="btn btn-info">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Update Car
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        @if (Model.ActiveOffers.Any())
+        {
+            <div class="card shadow mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tags"></i> Active Offers for this Car
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> This car has active offers. Changes to price or availability may affect existing offers.
+                    </div>
+                    @foreach (var offer in Model.ActiveOffers)
+                    {
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">@offer.Title</h6>
+                                    <p class="text-muted small mb-2">@offer.Description</p>
+                                    <span class="badge bg-success">@offer.DiscountLabel</span>
+                                    <span class="badge bg-secondary">@offer.RemainingSlots slots left</span>
+                                </div>
+                                <div class="text-end">
+                                    <div class="text-muted small"><s>@offer.OriginalPrice.ToString("C")</s></div>
+                                    <div class="fw-bold text-success">@offer.DiscountedPrice.ToString("C")</div>
+                                    <a asp-page="/Offers/Edit" asp-route-id="@offer.Id" class="btn btn-sm btn-outline-warning mt-1">
+                                        Edit Offer
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Price formatting
+        document.getElementById('Input_Price').addEventListener('blur', function(e) {
+            if (this.value) {
+                this.value = Math.round(parseFloat(this.value) || 0);
+            }
+        });
+        
+        // Confirmation for availability changes
+        document.getElementById('Input_IsAvailable').addEventListener('change', function(e) {
+            if (this.value === 'false') {
+                if (!confirm('Are you sure you want to mark this car as sold? This will affect any active offers.')) {
+                    this.value = 'true';
+                }
+            }
+        });
+    </script>
+}

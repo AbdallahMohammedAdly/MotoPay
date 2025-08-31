@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ClientInterests" xml:space="preserve"><value>Client Interests</value></data>
+  <data name="InterestedClients" xml:space="preserve"><value>Interested Clients</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>Search by client, car, or email</value></data>
+  <data name="LastNDays" xml:space="preserve"><value>Last {0} days</value></data>
+  <data name="All" xml:space="preserve"><value>All</value></data>
+  <data name="Filter" xml:space="preserve"><value>Filter</value></data>
+  <data name="RecentInterestsCount" xml:space="preserve"><value>Recent Interests ({0})</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Client" xml:space="preserve"><value>Client</value></data>
+  <data name="Contact" xml:space="preserve"><value>Contact</value></data>
+  <data name="Car" xml:space="preserve"><value>Car</value></data>
+  <data name="PreferredCall" xml:space="preserve"><value>Preferred Call</value></data>
+  <data name="Notes" xml:space="preserve"><value>Notes</value></data>
+  <data name="Documents" xml:space="preserve"><value>Documents</value></data>
+  <data name="NoInterestsFound" xml:space="preserve"><value>No interests found for the selected period.</value></data>
+  <data name="View" xml:space="preserve"><value>View</value></data>
+  <data name="None" xml:space="preserve"><value>None</value></data>
+  <data name="DocNumber" xml:space="preserve"><value>Doc {0}</value></data>
+</root>

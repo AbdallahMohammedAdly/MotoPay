@@ -1,0 +1,239 @@
+@page
+@model AutoLease.Web.Pages.SalesAgents.IndexModel
+@{
+    ViewData["Title"] = "Sales Agents";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Sales Agents Management</h1>
+    @if (User.IsInRole("SalesAgent"))
+    {
+        <a asp-page="./Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Sales Agent
+        </a>
+    }
+</div>
+
+<!-- Search and Filter Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                <i class="fas fa-filter"></i> Filters & Search
+            </button>
+        </h5>
+    </div>
+    <div id="filterCollapse" class="collapse @(Model.HasActiveFilters ? "show" : "")">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="searchTerm" class="form-label">Search</label>
+                    <input type="text" class="form-control" id="searchTerm" name="searchTerm" 
+                           value="@Model.SearchTerm" placeholder="Name, Email, Department...">
+                </div>
+                <div class="col-md-3">
+                    <label for="department" class="form-label">Department</label>
+                    <select class="form-select" id="department" name="department">
+                        <option value="">All Departments</option>
+                        @foreach (var dept in Model.AvailableDepartments)
+                        {
+                            <option value="@dept" selected="@(dept == Model.Department)">@dept</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="minCommissionRate" class="form-label">Min Commission Rate</label>
+                    <select class="form-select" id="minCommissionRate" name="minCommissionRate">
+                        <option value="">Any Rate</option>
+                        <option value="5" selected="@(Model.MinCommissionRate == 5)">5% or higher</option>
+                        <option value="10" selected="@(Model.MinCommissionRate == 10)">10% or higher</option>
+                        <option value="15" selected="@(Model.MinCommissionRate == 15)">15% or higher</option>
+                        <option value="20" selected="@(Model.MinCommissionRate == 20)">20% or higher</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="btn-group w-100" role="group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <a asp-page="./Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Results Summary -->
+@if (Model.SalesAgents.TotalCount > 0)
+{
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <span class="text-muted">
+                Showing @Model.SalesAgents.StartIndex - @Model.SalesAgents.EndIndex of @Model.SalesAgents.TotalCount sales agents
+            </span>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-sort"></i> Sort by @Model.GetSortDisplayName()
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="@Model.GetSortUrl("FirstName")">First Name</a></li>
+                <li><a class="dropdown-item" href="@Model.GetSortUrl("LastName")">Last Name</a></li>
+                <li><a class="dropdown-item" href="@Model.GetSortUrl("Department")">Department</a></li>
+                <li><a class="dropdown-item" href="@Model.GetSortUrl("CommissionRate")">Commission Rate</a></li>
+                <li><a class="dropdown-item" href="@Model.GetSortUrl("AssignedCars")">Assigned Cars</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sales Agents Grid -->
+    <div class="row">
+        @foreach (var agent in Model.SalesAgents.Items)
+        {
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-circle me-3">
+                                <i class="fas fa-user-tie fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-1">@agent.FullName</h5>
+                                <p class="text-muted mb-0">@agent.Department</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="row text-sm">
+                                <div class="col-12 mb-2">
+                                    <i class="fas fa-envelope text-muted"></i>
+                                    <span class="ms-1">@agent.Email</span>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <i class="fas fa-phone text-muted"></i>
+                                    <span class="ms-1">@agent.PhoneNumber</span>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <i class="fas fa-percentage text-success"></i>
+                                    <span class="ms-1 fw-bold">@agent.CommissionRate.ToString("F1")% Commission</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">Assigned Cars</span>
+                                <span class="badge bg-primary">@agent.AssignedCarsCount</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 4px;">
+                                <div class="progress-bar" style="width: @(Math.Min(100, agent.AssignedCarsCount * 10))%"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-muted small">
+                            <i class="fas fa-calendar"></i>
+                            Joined @agent.CreatedAt.ToString("MMM dd, yyyy")
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="btn-group w-100" role="group">
+                            <a asp-page="./Details" asp-route-id="@agent.Id" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye"></i> Details
+                            </a>
+                            @if (User.IsInRole("SalesAgent"))
+                            {
+                                <a asp-page="./Edit" asp-route-id="@agent.Id" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a asp-page="./Delete" asp-route-id="@agent.Id" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.SalesAgents.TotalPages > 1)
+    {
+        <nav aria-label="Sales agents pagination">
+            <ul class="pagination justify-content-center">
+                @if (Model.SalesAgents.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Model.GetPageUrl(1)">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Model.GetPageUrl(Model.SalesAgents.PageNumber - 1)">Previous</a>
+                    </li>
+                }
+
+                @for (int i = Math.Max(1, Model.SalesAgents.PageNumber - 2); i <= Math.Min(Model.SalesAgents.TotalPages, Model.SalesAgents.PageNumber + 2); i++)
+                {
+                    <li class="page-item @(i == Model.SalesAgents.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Model.GetPageUrl(i)">@i</a>
+                    </li>
+                }
+
+                @if (Model.SalesAgents.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Model.GetPageUrl(Model.SalesAgents.PageNumber + 1)">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Model.GetPageUrl(Model.SalesAgents.TotalPages)">Last</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="text-center py-5">
+        <i class="fas fa-user-tie fa-4x text-muted mb-3"></i>
+        <h3>No sales agents found</h3>
+        @if (Model.HasActiveFilters)
+        {
+            <p>Try adjusting your search criteria or <a asp-page="./Index">clear all filters</a>.</p>
+        }
+        else
+        {
+            <p>Start by adding your first sales agent to the team.</p>
+            @if (User.IsInRole("SalesAgent"))
+            {
+                <a asp-page="./Create" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Sales Agent
+                </a>
+            }
+        }
+    </div>
+}
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+    </style>
+}

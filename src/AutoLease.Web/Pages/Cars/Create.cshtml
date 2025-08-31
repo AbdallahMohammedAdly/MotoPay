@@ -1,0 +1,146 @@
+@page
+@model AutoLease.Web.Pages.Cars.CreateModel
+@{
+    ViewData["Title"] = "Add New Car";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus-circle"></i> Add New Car
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.Make" class="form-label">
+                                <i class="fas fa-car"></i> Make <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Make" class="form-control" placeholder="e.g., Toyota, Honda, BMW">
+                            <span asp-validation-for="Input.Make" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Input.Model" class="form-label">
+                                <i class="fas fa-tag"></i> Model <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Model" class="form-control" placeholder="e.g., Camry, Civic, X5">
+                            <span asp-validation-for="Input.Model" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Year" class="form-label">
+                                <i class="fas fa-calendar"></i> Year <span class="text-danger">*</span>
+                            </label>
+                            <select asp-for="Input.Year" class="form-select">
+                                <option value="">Select Year</option>
+                                @for (int year = DateTime.Now.Year + 1; year >= 2000; year--)
+                                {
+                                    <option value="@year">@year</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Input.Year" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Color" class="form-label">
+                                <i class="fas fa-palette"></i> Color <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Input.Color" class="form-control" placeholder="e.g., Black, White, Red">
+                            <span asp-validation-for="Input.Color" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.Price" class="form-label">
+                                <i class="fas fa-dollar-sign"></i> Price <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Input.Price" class="form-control" placeholder="25000" step="100">
+                            </div>
+                            <span asp-validation-for="Input.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.VinNumber" class="form-label">
+                            <i class="fas fa-barcode"></i> VIN Number <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="Input.VinNumber" class="form-control" placeholder="17-character VIN" maxlength="17">
+                        <div class="form-text">Vehicle Identification Number (17 characters)</div>
+                        <span asp-validation-for="Input.VinNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.Description" class="form-label">
+                            <i class="fas fa-file-text"></i> Description <span class="text-danger">*</span>
+                        </label>
+                        <textarea asp-for="Input.Description" class="form-control" rows="4" 
+                                placeholder="Detailed description of the vehicle, features, condition, etc."></textarea>
+                        <div class="form-text">Provide detailed information about the vehicle</div>
+                        <span asp-validation-for="Input.Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.ImageUrl" class="form-label">
+                            <i class="fas fa-image"></i> Image URLs
+                        </label>
+                        <input asp-for="Input.ImageUrl" class="form-control" type="text" 
+                               placeholder="Enter one or more URLs separated by comma, semicolon or newline">
+                        <div class="form-text">Optional: Provide one or more image URLs separated by comma, semicolon, space, or newline</div>
+                        <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Input.SalesAgentId" class="form-label">
+                            <i class="fas fa-user-tie"></i> Assign Sales Agent
+                        </label>
+                        <select asp-for="Input.SalesAgentId" class="form-select">
+                            <option value="">No Sales Agent Assigned</option>
+                            @foreach (var agent in Model.SalesAgents)
+                            {
+                                <option value="@agent.Id">@agent.FullName - @agent.Department</option>
+                            }
+                        </select>
+                        <div class="form-text">Optionally assign a sales agent to this vehicle</div>
+                        <span asp-validation-for="Input.SalesAgentId" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Create Car
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Auto-format VIN number input
+        document.getElementById('Input_VinNumber').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+        
+        // Price formatting
+        document.getElementById('Input_Price').addEventListener('blur', function(e) {
+            if (this.value) {
+                this.value = Math.round(parseFloat(this.value) || 0);
+            }
+        });
+    </script>
+}

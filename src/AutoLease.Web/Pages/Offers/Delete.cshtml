@@ -1,0 +1,170 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.Offers.DeleteModel
+@{
+    ViewData["Title"] = "Delete Offer";
+}
+
+@if (Model.Offer != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-warning"></i> Warning!</h5>
+                        <p>You are about to permanently delete the following special offer. This action cannot be undone.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Offer Information</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Title:</strong></td>
+                                    <td>@Model.Offer.Title</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Car:</strong></td>
+                                    <td>@Model.Offer.Car?.DisplayName</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Original Price:</strong></td>
+                                    <td>@Model.Offer.OriginalPrice.ToString("C")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Discounted Price:</strong></td>
+                                    <td class="text-success fw-bold">@Model.Offer.DiscountedPrice.ToString("C")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Discount:</strong></td>
+                                    <td><span class="badge bg-danger">@Model.Offer.DiscountLabel</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td><span class="badge bg-info">@Model.Offer.StatusBadge</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Impact Assessment</h5>
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-info-circle"></i> What will happen:</h6>
+                                <ul class="mb-0">
+                                    <li><strong>@Model.Offer.CurrentApplications applications</strong> will be permanently deleted</li>
+                                    <li>All application data will be lost</li>
+                                    <li>Users who applied will lose their application status</li>
+                                    <li>This offer will no longer be available</li>
+                                </ul>
+                            </div>
+                            
+                            @if (Model.Offer.CurrentApplications > 0)
+                            {
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>High Impact Deletion!</strong><br>
+                                    This offer has @Model.Offer.CurrentApplications active applications that will be lost.
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <form method="post" class="mt-4">
+                        <input type="hidden" asp-for="Offer.Id" />
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="confirmDelete" name="confirmDelete" required>
+                            <label class="form-check-label fw-bold text-danger" for="confirmDelete">
+                                I understand that this action cannot be undone and confirm the deletion of "@Model.Offer.Title"
+                            </label>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger" id="deleteButton" disabled>
+                                <i class="fas fa-trash"></i> Permanently Delete Offer
+                            </button>
+                            <a asp-page="./Details" asp-route-id="@Model.Offer.Id" class="btn btn-info">
+                                <i class="fas fa-eye"></i> View Details Instead
+                            </a>
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock"></i> Offer Timeline
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline-item mb-3">
+                        <strong>Created:</strong><br>
+                        <span class="text-muted">@Model.Offer.CreatedAt.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="timeline-item mb-3">
+                        <strong>Starts:</strong><br>
+                        <span class="text-success">@Model.Offer.StartDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="timeline-item mb-3">
+                        <strong>Ends:</strong><br>
+                        <span class="text-danger">@Model.Offer.EndDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Applications:</strong><br>
+                        <span class="fw-bold">@Model.Offer.CurrentApplications of @Model.Offer.MaxApplications</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle"></i> Need Help?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="small">
+                        If you're unsure about deleting this offer, consider:
+                    </p>
+                    <ul class="small">
+                        <li>Deactivating it instead of deleting</li>
+                        <li>Extending the end date if needed</li>
+                        <li>Contacting applicants first</li>
+                        <li>Archiving for future reference</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <h4>Offer Not Found</h4>
+        <p>The requested offer could not be found.</p>
+        <a asp-page="./Index" class="btn btn-primary">Back to Offers</a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('confirmDelete');
+            const deleteButton = document.getElementById('deleteButton');
+            
+            checkbox.addEventListener('change', function() {
+                deleteButton.disabled = !this.checked;
+            });
+        });
+    </script>
+}

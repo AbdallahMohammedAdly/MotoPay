@@ -1,0 +1,372 @@
+@page "{id:int}"
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model AutoLease.Web.Pages.Offers.DetailsModel
+@{
+    ViewData["Title"] = Localizer["OfferDetails"];
+}
+
+@if (Model.Offer != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-gradient-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0">
+                                <i class="fas fa-fire"></i> @Model.Offer.Title
+                            </h4>
+                            <small>@Localizer["Created"] @Model.Offer.CreatedAt.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <div>
+                            <span class="badge @(Model.Offer.StatusBadge == "Active" ? "bg-success" : Model.Offer.StatusBadge == "Expired" ? "bg-secondary" : "bg-warning") fs-6">
+                                @Model.Offer.StatusBadge
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Pricing Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="pricing-card bg-light p-4 rounded">
+                                <h5 class="text-center mb-3">@Localizer["PricingDetails"]</h5>
+                                <div class="text-center">
+                                    <div class="original-price mb-2">
+                                        <span class="text-muted text-decoration-line-through h5">@Model.Offer.OriginalPrice.ToString("C")</span>
+                                    </div>
+                                    <div class="discounted-price mb-2">
+                                        <span class="text-success h2 fw-bold">@Model.Offer.DiscountedPrice.ToString("C")</span>
+                                    </div>
+                                    <div class="discount-badge">
+                                        <span class="badge bg-danger fs-6">@Model.Offer.DiscountLabel</span>
+                                    </div>
+                                    <div class="savings mt-2">
+                                        <span class="text-success fw-bold">
+                                            <i class="fas fa-piggy-bank"></i> @Localizer["Save"] @Model.Offer.Savings.ToString("C")
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="offer-stats bg-info bg-opacity-10 p-4 rounded">
+                                <h5 class="text-center mb-3">@Localizer["OfferStatistics"]</h5>
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <h4 class="text-primary">@Model.Offer.CurrentApplications</h4>
+                                            <small class="text-muted">@Localizer["Applications"]</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <h4 class="text-success">@Model.Offer.RemainingSlots</h4>
+                                            <small class="text-muted">@Localizer["Remaining"]</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress mt-3">
+                                    @{
+                                        var progressPercent = Model.Offer.MaxApplications > 0 ? 
+                                            (Model.Offer.CurrentApplications * 100.0 / Model.Offer.MaxApplications) : 0;
+                                    }
+                                    <div class="progress-bar bg-info" style="width: @(progressPercent)%"></div>
+                                </div>
+                                <small class="text-muted">@Model.Offer.CurrentApplications @Localizer["Of"] @Model.Offer.MaxApplications @Localizer["SlotsFilled"]</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-info-circle"></i> @Localizer["Description"]</h5>
+                        <p class="text-muted">@Model.Offer.Description</p>
+                    </div>
+
+                    <!-- Car Information -->
+                    @if (Model.Offer.Car != null)
+                    {
+                        <div class="mb-4">
+                            <h5><i class="fas fa-car"></i> @Localizer["VehicleDetails"]</h5>
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h6 class="fw-bold">@Model.Offer.Car.DisplayName</h6>
+                                            <p class="mb-1"><strong>@Localizer["Year"]:</strong> @Model.Offer.Car.Year</p>
+                                            <p class="mb-1"><strong>@Localizer["Color"]:</strong> @Model.Offer.Car.Color</p>
+                                            <p class="mb-1"><strong>@Localizer["VIN"]:</strong> @Model.Offer.Car.VinNumber</p>
+                                            <p class="mb-0"><strong>@Localizer["RegularPrice"]:</strong> @Model.Offer.Car.Price.ToString("C")</p>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <a asp-page="/Cars/Details" asp-route-id="@Model.Offer.Car.Id" class="btn btn-outline-primary">
+                                                <i class="fas fa-eye"></i> @Localizer["ViewCar"]
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Sales Agent -->
+                    @if (Model.Offer.SalesAgent != null)
+                    {
+                        <div class="mb-4">
+                            <h5><i class="fas fa-user-tie"></i> @Localizer["SalesAgent"]</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-user-circle fa-2x text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">@Model.Offer.SalesAgent.FullName</h6>
+                                    <small class="text-muted">@Model.Offer.SalesAgent.Department @Localizer["Department"]</small><br>
+                                    <small class="text-muted">
+                                        <i class="fas fa-envelope"></i> @Model.Offer.SalesAgent.Email
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Terms and Conditions -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-file-contract"></i> @Localizer["TermsAndConditions"]</h5>
+                        <div class="bg-light p-3 rounded">
+                            <p class="mb-0 small">@Model.Offer.Terms</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex gap-2 flex-wrap">
+                        @if (User.IsInRole("Client") && Model.Offer.CanApply)
+                        {
+                            <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">
+                                <i class="fas fa-shopping-cart"></i> @Localizer["ApplyForThisOffer"]
+                            </button>
+                            <form method="post" asp-page-handler="Apply" asp-route-id="@Model.Offer.Id" class="d-inline">
+                                <button type="submit" class="btn btn-outline-success btn-lg">
+                                    <i class="fas fa-paper-plane"></i> @Localizer["SubmitApplication"]
+                                </button>
+                            </form>
+                            <button class="btn btn-outline-primary" id="interestBtn">
+                                <i class="fas fa-heart"></i> @Localizer["ShowInterest"]
+                            </button>
+                        }
+                        else if (User.IsInRole("SalesAgent"))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@Model.Offer.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> @Localizer["EditOffer"]
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@Model.Offer.Id" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> @Localizer["DeleteOffer"]
+                            </a>
+                        }
+                        
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> @Localizer["BackToOffers"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Applicants List -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-users"></i> @Localizer["Applicants"] (@Model.Applicants.Count)</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Applicants.Count == 0)
+                    {
+                        <div class="text-muted">@Localizer["NoApplicantsYet"]</div>
+                    }
+                    else
+                    {
+                        <ul class="list-group">
+                            @foreach (var a in Model.Applicants)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">@a.User?.FirstName @a.User?.LastName</div>
+                                        <div class="small text-muted">@a.User?.Email</div>
+                                    </div>
+                                    <span class="badge bg-secondary rounded-pill">@a.ApplicationDate.ToLocalTime().ToString("MM/dd HH:mm")</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <!-- Time Information -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock"></i> @Localizer["Timeline"]
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline-item mb-3">
+                        <strong>@Localizer["Starts"]:</strong><br>
+                        <span class="text-success">@Model.Offer.StartDate.ToString("MMM dd, yyyy 'at' h:mm tt")</span>
+                    </div>
+                    <div class="timeline-item mb-3">
+                        <strong>@Localizer["Ends"]:</strong><br>
+                        <span class="text-danger">@Model.Offer.EndDate.ToString("MMM dd, yyyy 'at' h:mm tt")</span>
+                    </div>
+                    <div class="timeline-item">
+                        <strong>@Localizer["Status"]:</strong><br>
+                        <span class="fw-bold">@Model.Offer.TimeRemaining</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt"></i> @Localizer["QuickActions"]
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="tel:@(Model.Offer.SalesAgent?.PhoneNumber ?? "")" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-phone"></i> @Localizer["CallSalesAgent"]
+                        </a>
+                        <a href="mailto:@(Model.Offer.SalesAgent?.Email ?? "")" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-envelope"></i> @Localizer["EmailAgent"]
+                        </a>
+                        <button class="btn btn-outline_warning btn-sm" onclick="navigator.share({title: '@Model.Offer.Title', url: window.location.href})">
+                            <i class="fas fa-share"></i> @Localizer["ShareOffer"]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Modal -->
+    <div class="modal fade" id="applyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-shopping-cart"></i> @Localizer["ApplyFor"]: @Model.Offer.Title
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="applicationForm">
+                        <input type="hidden" name="offerId" value="@Model.Offer.Id">
+                        <div class="mb-3">
+                            <label for="applicationNotes" class="form-label">@Localizer["AdditionalNotesOptional"]</label>
+                            <textarea id="applicationNotes" name="notes" class="form-control" rows="3" 
+                                    placeholder="@Localizer["AnyAdditionalInfo"]"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsAgree" required>
+                            <label class="form-check-label" for="termsAgree">
+                                @Localizer["AgreeToTerms"]
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button type="button" class="btn btn-success" id="submitApplication">
+                        <i class="fas fa-paper-plane"></i> @Localizer["SubmitApplication"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <h4>@Localizer["OfferNotFound"]</h4>
+        <p>@Localizer["OfferNotFoundDesc"]</p>
+        <a asp-page="./Index" class="btn btn-primary">@Localizer["BackToOffers"]</a>
+    </div>
+}
+
+@section Styles {
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .pricing-card {
+            border: 2px solid #e9ecef;
+        }
+        
+        .timeline-item {
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #007bff;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Interest button functionality
+            const interestBtn = document.getElementById('interestBtn');
+            if (interestBtn) {
+                interestBtn.addEventListener('click', function() {
+                    this.innerHTML = '<i class="fas fa-heart text-danger"></i> @Localizer["Interested!"]';
+                    this.classList.remove('btn-outline-primary');
+                    this.classList.add('btn-outline-success');
+                    this.disabled = true;
+                });
+            }
+            
+            // Submit application
+            const submitBtn = document.getElementById('submitApplication');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    const termsChecked = document.getElementById('termsAgree').checked;
+                    if (!termsChecked) {
+                        alert('@Localizer["PleaseAgreeToTerms"]');
+                        return;
+                    }
+                    
+                    // Close modal and show success message
+                    bootstrap.Modal.getInstance(document.getElementById('applyModal')).hide();
+                    
+                    // Show success toast
+                    const toast = document.createElement('div');
+                    toast.className = 'toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-3';
+                    toast.setAttribute('role', 'alert');
+                    toast.style.zIndex = '9999';
+                    toast.innerHTML = `
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-check-circle"></i> @Localizer["ApplicationSubmittedSuccessfully"]
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(toast);
+                    new bootstrap.Toast(toast).show();
+                    
+                    setTimeout(() => toast.remove(), 5000);
+                });
+            }
+        });
+    </script>
+}

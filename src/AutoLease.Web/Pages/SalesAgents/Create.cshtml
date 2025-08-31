@@ -1,0 +1,138 @@
+@page
+@model AutoLease.Web.Pages.SalesAgents.CreateModel
+@{
+    ViewData["Title"] = "Create Sales Agent";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-user-plus"></i> Create New Sales Agent
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.FirstName" class="form-label">First Name</label>
+                                <input asp-for="Input.FirstName" class="form-control" />
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.LastName" class="form-label">Last Name</label>
+                                <input asp-for="Input.LastName" class="form-control" />
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.Email" class="form-label">Email</label>
+                                <input asp-for="Input.Email" class="form-control" type="email" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="Input.PhoneNumber" class="form-control" />
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.Department" class="form-label">Department</label>
+                                <select asp-for="Input.Department" class="form-select">
+                                    <option value="">Select Department</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Luxury">Luxury</option>
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Electric">Electric</option>
+                                </select>
+                                <span asp-validation-for="Input.Department" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.CommissionRate" class="form-label">Commission Rate (%)</label>
+                                <input asp-for="Input.CommissionRate" class="form-control" type="number" min="0" max="50" step="0.1" />
+                                <span asp-validation-for="Input.CommissionRate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Biography" class="form-label">Biography</label>
+                        <textarea asp-for="Input.Biography" class="form-control" rows="4" 
+                                placeholder="Brief professional biography..."></textarea>
+                        <span asp-validation-for="Input.Biography" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.UserId" class="form-label">Associate with User</label>
+                        <select asp-for="Input.UserId" class="form-select">
+                            <option value="">Select User (Optional)</option>
+                            @foreach (var user in Model.AvailableUsers)
+                            {
+                                <option value="@user.Id">@user.FullName (@user.Email)</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Input.UserId" class="text-danger"></span>
+                        <div class="form-text">Associate this sales agent with an existing user account</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Create Sales Agent
+                        </button>
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle"></i> Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>Sales Agent Role</h6>
+                <p class="small text-muted">
+                    Sales agents can manage car listings, create special offers, and handle customer inquiries.
+                </p>
+                
+                <h6>Commission Structure</h6>
+                <p class="small text-muted">
+                    Commission rates typically range from 5% to 25% based on experience and department.
+                </p>
+                
+                <h6>User Association</h6>
+                <p class="small text-muted">
+                    You can associate this sales agent with an existing user account to enable login functionality.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,138 @@
+@model AutoLease.Web.Pages.Cars.BrandShowcaseModel
+
+@if (Model.PagedCars.Items.Any())
+{
+    <!-- Results Summary -->
+    <div class="results-summary d-flex justify-content-between align-items-center">
+        <div>
+            <span class="text-muted">
+                Showing @Model.PagedCars.StartIndex - @Model.PagedCars.EndIndex of @Model.PagedCars.TotalCount cars
+            </span>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-sort"></i> Sort by @Model.SortBy
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item sort-link" href="#" data-sort="Make">Make</a></li>
+                <li><a class="dropdown-item sort-link" href="#" data-sort="Model">Model</a></li>
+                <li><a class="dropdown-item sort-link" href="#" data-sort="Year">Year</a></li>
+                <li><a class="dropdown-item sort-link" href="#" data-sort="Price">Price</a></li>
+                <li><a class="dropdown-item sort-link" href="#" data-sort="Discount">Discount %</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item sort-link" href="#" data-sort="CreatedAt">Date Added</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Display paginated cars -->
+    <div class="row g-4 mt-3">
+        @foreach (var carWithOffer in Model.PagedCars.Items)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card car-card">
+                    <div class="position-relative">
+                        <img src="@(carWithOffer.Car.ImageUrl ?? "/images/default-car.jpg")" 
+                             class="card-img-top car-image" 
+                             alt="@carWithOffer.Car.DisplayName" />
+                        @if (carWithOffer.HasActiveOffer && carWithOffer.BestOffer != null)
+                        {
+                            <div class="offer-badge">
+                                @carWithOffer.BestOffer.DiscountLabel
+                            </div>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@carWithOffer.Car.DisplayName</h5>
+                        <p class="text-muted mb-2">@carWithOffer.Car.Color</p>
+                        
+                        @if (carWithOffer.HasActiveOffer && carWithOffer.BestOffer != null)
+                        {
+                            <div class="price-section">
+                                <span class="original-price">$@carWithOffer.Car.Price.ToString("N0")</span>
+                                <span class="offer-price">$@carWithOffer.BestOffer.DiscountedPrice.ToString("N0")</span>
+                            </div>
+                            <p class="text-success mb-3">
+                                <small>@carWithOffer.BestOffer.Title</small>
+                            </p>
+                        }
+                        else
+                        {
+                            <div class="price-section">
+                                <span class="offer-price">$@carWithOffer.Car.Price.ToString("N0")</span>
+                            </div>
+                            <p class="no-offers mb-3">No special offers</p>
+                        }
+
+                        <ul class="feature-list">
+                            <li>VIN: @carWithOffer.Car.VinNumber</li>
+                            <li>Status: @(carWithOffer.Car.IsAvailable ? "Available" : "Sold")</li>
+                        </ul>
+
+                        <div class="d-flex gap-2">
+                            <a href="/Cars/Details?id=@carWithOffer.Car.Id" class="view-details-btn">
+                                View Details
+                            </a>
+                            @if (carWithOffer.HasActiveOffer)
+                            {
+                                <a href="/Offers/Details?id=@carWithOffer.BestOffer!.Id" class="btn btn-outline-success rounded-pill">
+                                    View Offer
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.PagedCars.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-5">
+            <ul class="pagination justify-content-center">
+                @if (Model.PagedCars.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link page-nav" href="#" data-page="1">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-nav" href="#" data-page="@(Model.PagedCars.PageNumber - 1)">Previous</a>
+                    </li>
+                }
+
+                @for (int i = Math.Max(1, Model.PagedCars.PageNumber - 2); i <= Math.Min(Model.PagedCars.TotalPages, Model.PagedCars.PageNumber + 2); i++)
+                {
+                    <li class="page-item @(i == Model.PagedCars.PageNumber ? "active" : "")">
+                        <a class="page-link page-nav" href="#" data-page="@i">@i</a>
+                    </li>
+                }
+
+                @if (Model.PagedCars.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link page-nav" href="#" data-page="@(Model.PagedCars.PageNumber + 1)">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link page-nav" href="#" data-page="@Model.PagedCars.TotalPages">Last</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="text-center py-5">
+        <i class="fas fa-car fa-3x text-muted mb-3"></i>
+        <h3>No cars found</h3>
+        @if (Model.HasActiveFilters)
+        {
+            <p>Try adjusting your search criteria or <a href="#" id="clear-filters">clear all filters</a>.</p>
+        }
+        else
+        {
+            <p>No cars are currently available.</p>
+        }
+    </div>
+}

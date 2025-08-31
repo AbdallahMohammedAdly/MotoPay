@@ -1,0 +1,93 @@
+@page
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model AutoLease.Web.Pages.Interests.IndexModel
+@{
+    ViewData["Title"] = Localizer["ClientInterests"];
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-user-check"></i> @Localizer["InterestedClients"]</h1>
+    <form method="get" class="d-flex gap-2">
+        <input class="form-control" type="text" name="q" value="@Model.Query" placeholder="@Localizer["SearchPlaceholder"]">
+        <select class="form-select" name="days">
+            <option value="7" selected="@(Model.Days == 7)">@Localizer["LastNDays", 7]</option>
+            <option value="30" selected="@(Model.Days == 30)">@Localizer["LastNDays", 30]</option>
+            <option value="90" selected="@(Model.Days == 90)">@Localizer["LastNDays", 90]</option>
+            <option value="365" selected="@(Model.Days == 365)">@Localizer["LastNDays", 365]</option>
+            <option value="0" selected="@(Model.Days == 0)">@Localizer["All"]</option>
+        </select>
+        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> @Localizer["Filter"]</button>
+    </form>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0"><i class="fas fa-list"></i> @Localizer["RecentInterestsCount", Model.TotalCount]</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th>@Localizer["Date"]</th>
+                        <th>@Localizer["Client"]</th>
+                        <th>@Localizer["Contact"]</th>
+                        <th>@Localizer["Car"]</th>
+                        <th>@Localizer["PreferredCall"]</th>
+                        <th>@Localizer["Notes"]</th>
+                        <th>@Localizer["Documents"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Items.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">@Localizer["NoInterestsFound"]</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    <div class="fw-bold">@item.ClientName</div>
+                                    <small class="text-muted">@item.UserId</small>
+                                </td>
+                                <td>
+                                    <div><i class="fas fa-envelope"></i> @item.Email</div>
+                                    <div><i class="fas fa-phone"></i> @item.Phone</div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold">@item.CarDisplayName</div>
+                                    <a asp-page="/Cars/Details" asp-route-id="@item.CarId" class="btn btn-sm btn-outline-primary mt-1">@Localizer["View"]</a>
+                                </td>
+                                <td>@item.PreferredCallTime.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                                <td class="small">@item.Notes</td>
+                                <td>
+                                    @if (item.DocumentLinks.Count == 0)
+                                    {
+                                        <span class="text-muted">@Localizer["None"]</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex flex-wrap gap-2">
+                                            @for (int i = 0; i < item.DocumentLinks.Count; i++)
+                                            {
+                                                var link = item.DocumentLinks[i];
+                                                <a href="@link" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-file"></i> @Localizer["DocNumber", i + 1]
+                                                </a>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

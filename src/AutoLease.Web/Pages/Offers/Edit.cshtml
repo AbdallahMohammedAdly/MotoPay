@@ -1,0 +1,197 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.Offers.EditModel
+@{
+    ViewData["Title"] = "Edit Offer";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> Edit Special Offer
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Input.Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.Title" class="form-label">Offer Title</label>
+                                <input asp-for="Input.Title" class="form-control" />
+                                <span asp-validation-for="Input.Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.CarId" class="form-label">Select Car</label>
+                                <select asp-for="Input.CarId" class="form-select">
+                                    <option value="">Choose a car...</option>
+                                    @foreach (var car in Model.AvailableCars)
+                                    {
+                                        <option value="@car.Id" selected="@(car.Id == Model.Input.CarId)">@car.DisplayName - @car.Price.ToString("C")</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.CarId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Description" class="form-label">Description</label>
+                        <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Input.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label asp-for="Input.OriginalPrice" class="form-label">Original Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="Input.OriginalPrice" class="form-control" type="number" step="0.01" min="0" />
+                                </div>
+                                <span asp-validation-for="Input.OriginalPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label asp-for="Input.DiscountedPrice" class="form-label">Discounted Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="Input.DiscountedPrice" class="form-control" type="number" step="0.01" min="0" />
+                                </div>
+                                <span asp-validation-for="Input.DiscountedPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Savings</label>
+                                <div class="form-control bg-light" id="savingsDisplay">$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.StartDate" class="form-label">Start Date</label>
+                                <input asp-for="Input.StartDate" class="form-control" type="datetime-local" />
+                                <span asp-validation-for="Input.StartDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.EndDate" class="form-label">End Date</label>
+                                <input asp-for="Input.EndDate" class="form-control" type="datetime-local" />
+                                <span asp-validation-for="Input.EndDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.MaxApplications" class="form-label">Maximum Applications</label>
+                                <input asp-for="Input.MaxApplications" class="form-control" type="number" min="1" max="1000" />
+                                <span asp-validation-for="Input.MaxApplications" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.SalesAgentId" class="form-label">Assign Sales Agent</label>
+                                <select asp-for="Input.SalesAgentId" class="form-select">
+                                    <option value="">No specific agent</option>
+                                    @foreach (var agent in Model.SalesAgents)
+                                    {
+                                        <option value="@agent.Id" selected="@(agent.Id == Model.Input.SalesAgentId)">@agent.FullName (@agent.Department)</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.SalesAgentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Terms" class="form-label">Terms and Conditions</label>
+                        <textarea asp-for="Input.Terms" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Input.Terms" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="fas fa-save"></i> Update Offer
+                        </button>
+                        <a asp-page="./Details" asp-route-id="@Model.Input.Id" class="btn btn-info btn-lg">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                        <a asp-page="./Index" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-arrow-left"></i> Back to Offers
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line"></i> Current Stats
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Offer != null)
+                {
+                    <div class="text-center mb-3">
+                        <h4 class="text-primary">@Model.Offer.CurrentApplications</h4>
+                        <small class="text-muted">Current Applications</small>
+                    </div>
+                    <div class="text-center mb-3">
+                        <h4 class="text-success">@Model.Offer.RemainingSlots</h4>
+                        <small class="text-muted">Slots Remaining</small>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Status:</strong> @Model.Offer.StatusBadge<br>
+                        <strong>Time:</strong> @Model.Offer.TimeRemaining
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const originalPriceInput = document.getElementById('Input_OriginalPrice');
+            const discountedPriceInput = document.getElementById('Input_DiscountedPrice');
+            const savingsDisplay = document.getElementById('savingsDisplay');
+            
+            function updateSavings() {
+                const original = parseFloat(originalPriceInput.value) || 0;
+                const discounted = parseFloat(discountedPriceInput.value) || 0;
+                const savings = original - discounted;
+                
+                if (savings >= 0) {
+                    savingsDisplay.textContent = '$' + savings.toFixed(2);
+                    savingsDisplay.className = 'form-control bg-success text-white';
+                } else {
+                    savingsDisplay.textContent = 'Invalid prices';
+                    savingsDisplay.className = 'form-control bg-danger text-white';
+                }
+            }
+            
+            originalPriceInput.addEventListener('input', updateSavings);
+            discountedPriceInput.addEventListener('input', updateSavings);
+            
+            // Initial calculation
+            updateSavings();
+        });
+    </script>
+}

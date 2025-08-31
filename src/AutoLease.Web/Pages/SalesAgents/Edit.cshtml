@@ -1,0 +1,153 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.SalesAgents.EditModel
+@{
+    ViewData["Title"] = "Edit Sales Agent";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-user-edit"></i> Edit Sales Agent
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Input.Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.FirstName" class="form-label">First Name</label>
+                                <input asp-for="Input.FirstName" class="form-control" />
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.LastName" class="form-label">Last Name</label>
+                                <input asp-for="Input.LastName" class="form-control" />
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.Email" class="form-label">Email</label>
+                                <input asp-for="Input.Email" class="form-control" type="email" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="Input.PhoneNumber" class="form-control" />
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.Department" class="form-label">Department</label>
+                                <select asp-for="Input.Department" class="form-select">
+                                    <option value="">Select Department</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Luxury">Luxury</option>
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Electric">Electric</option>
+                                </select>
+                                <span asp-validation-for="Input.Department" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Input.CommissionRate" class="form-label">Commission Rate (%)</label>
+                                <input asp-for="Input.CommissionRate" class="form-control" type="number" min="0" max="50" step="0.1" />
+                                <span asp-validation-for="Input.CommissionRate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Biography" class="form-label">Biography</label>
+                        <textarea asp-for="Input.Biography" class="form-control" rows="4" 
+                                placeholder="Brief professional biography..."></textarea>
+                        <span asp-validation-for="Input.Biography" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.UserId" class="form-label">Associate with User</label>
+                        <select asp-for="Input.UserId" class="form-select">
+                            <option value="">No User Association</option>
+                            @foreach (var user in Model.AvailableUsers)
+                            {
+                                <option value="@user.Id" selected="@(user.Id == Model.Input.UserId)">
+                                    @user.FullName (@user.Email)
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="Input.UserId" class="text-danger"></span>
+                        <div class="form-text">Associate this sales agent with an existing user account</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Update Sales Agent
+                        </button>
+                        <a asp-page="./Details" asp-route-id="@Model.Input.Id" class="btn btn-info">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line"></i> Performance Stats
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.SalesAgent != null)
+                {
+                    <div class="mb-3">
+                        <h6>Current Stats</h6>
+                        <p class="small text-muted mb-1">
+                            <strong>Total Sales:</strong> @Model.SalesAgent.TotalSales.ToString("C")
+                        </p>
+                        <p class="small text-muted mb-1">
+                            <strong>Cars Sold:</strong> @Model.SalesAgent.CarsSold
+                        </p>
+                        <p class="small text-muted mb-1">
+                            <strong>Commission Rate:</strong> @Model.SalesAgent.CommissionRate%
+                        </p>
+                        <p class="small text-muted">
+                            <strong>Member Since:</strong> @Model.SalesAgent.HireDate.ToString("MMM yyyy")
+                        </p>
+                    </div>
+                }
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Note:</strong> Changes to commission rates will apply to future sales only.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

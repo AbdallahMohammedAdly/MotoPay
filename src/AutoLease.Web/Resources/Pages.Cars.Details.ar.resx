@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="CarNotFound" xml:space="preserve"><value>السيارة غير موجودة</value></data>
+  <data name="CarNotFoundDesc" xml:space="preserve"><value>تعذر العثور على السيارة المطلوبة.</value></data>
+  <data name="BackToCars" xml:space="preserve"><value>الرجوع إلى السيارات</value></data>
+  <data name="Gallery" xml:space="preserve"><value>المعرض</value></data>
+  <data name="Previous" xml:space="preserve"><value>السابق</value></data>
+  <data name="Next" xml:space="preserve"><value>التالي</value></data>
+  <data name="Available" xml:space="preserve"><value>متاح</value></data>
+  <data name="Sold" xml:space="preserve"><value>مباع</value></data>
+  <data name="VehicleInformation" xml:space="preserve"><value>معلومات المركبة</value></data>
+  <data name="Make" xml:space="preserve"><value>الشركة المصنعة</value></data>
+  <data name="Model" xml:space="preserve"><value>الطراز</value></data>
+  <data name="Year" xml:space="preserve"><value>السنة</value></data>
+  <data name="Color" xml:space="preserve"><value>اللون</value></data>
+  <data name="VIN" xml:space="preserve"><value>رقم الهيكل</value></data>
+  <data name="PricingAndStatus" xml:space="preserve"><value>السعر والحالة</value></data>
+  <data name="Price" xml:space="preserve"><value>السعر</value></data>
+  <data name="Status" xml:space="preserve"><value>الحالة</value></data>
+  <data name="AvailableForPurchase" xml:space="preserve"><value>متاح للشراء</value></data>
+  <data name="Added" xml:space="preserve"><value>تمت الإضافة</value></data>
+  <data name="Updated" xml:space="preserve"><value>تم التحديث</value></data>
+  <data name="Description" xml:space="preserve"><value>الوصف</value></data>
+  <data name="SalesAgent" xml:space="preserve"><value>مندوب المبيعات</value></data>
+  <data name="AssignedSalesRepresentative" xml:space="preserve"><value>ممثل المبيعات المعين</value></data>
+  <data name="ContactAgent" xml:space="preserve"><value>اتصل بالوكيل</value></data>
+  <data name="Owner" xml:space="preserve"><value>المالك</value></data>
+  <data name="ThisVehicleHasBeenSold" xml:space="preserve"><value>تم بيع هذه المركبة</value></data>
+  <data name="ActiveOffers" xml:space="preserve"><value>العروض النشطة</value></data>
+  <data name="ViewOffer" xml:space="preserve"><value>عرض العرض</value></data>
+  <data name="Actions" xml:space="preserve"><value>الإجراءات</value></data>
+  <data name="EditCar" xml:space="preserve"><value>تعديل السيارة</value></data>
+  <data name="CreateOffer" xml:space="preserve"><value>إنشاء عرض</value></data>
+  <data name="DeleteCar" xml:space="preserve"><value>حذف السيارة</value></data>
+  <data name="ShowInterest" xml:space="preserve"><value>إبداء الاهتمام</value></data>
+  <data name="ApplyForOffer" xml:space="preserve"><value>التقديم على العرض</value></data>
+  <data name="BackToList" xml:space="preserve"><value>الرجوع إلى القائمة</value></data>
+  <data name="ExpressInterestFor" xml:space="preserve"><value>إبداء الاهتمام بـ</value></data>
+  <data name="PreferredTimeToCall" xml:space="preserve"><value>الوقت المناسب للاتصال</value></data>
+  <data name="ChooseSuitableTime" xml:space="preserve"><value>اختر وقتًا مناسبًا ضمن توفر وقتك</value></data>
+  <data name="UploadDocumentsImagesPdf" xml:space="preserve"><value>تحميل المستندات (صور أو PDF)</value></data>
+  <data name="SupportedFilesAndLimit" xml:space="preserve"><value>الملفات المدعومة: JPG, PNG, GIF, WEBP, PDF. الحد الأقصى 10MB لكل ملف.</value></data>
+  <data name="NotesOptional" xml:space="preserve"><value>ملاحظات (اختياري)</value></data>
+  <data name="AnyAdditionalInfo" xml:space="preserve"><value>أي معلومات إضافية تريد إبلاغنا بها...</value></data>
+  <data name="Cancel" xml:space="preserve"><value>إلغاء</value></data>
+  <data name="Send" xml:space="preserve"><value>إرسال</value></data>
+  <data name="ClickToCopyVIN" xml:space="preserve"><value>انقر لنسخ رقم الهيكل</value></data>
+  <data name="Copied" xml:space="preserve"><value>تم النسخ</value></data>
+</root>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="OfferDetails" xml:space="preserve"><value>Offer Details</value></data>
+  <data name="Created" xml:space="preserve"><value>Created</value></data>
+  <data name="PricingDetails" xml:space="preserve"><value>Pricing Details</value></data>
+  <data name="Save" xml:space="preserve"><value>Save</value></data>
+  <data name="OfferStatistics" xml:space="preserve"><value>Offer Statistics</value></data>
+  <data name="Applications" xml:space="preserve"><value>Applications</value></data>
+  <data name="Remaining" xml:space="preserve"><value>Remaining</value></data>
+  <data name="Of" xml:space="preserve"><value>of</value></data>
+  <data name="SlotsFilled" xml:space="preserve"><value>slots filled</value></data>
+  <data name="Description" xml:space="preserve"><value>Description</value></data>
+  <data name="VehicleDetails" xml:space="preserve"><value>Vehicle Details</value></data>
+  <data name="Year" xml:space="preserve"><value>Year</value></data>
+  <data name="Color" xml:space="preserve"><value>Color</value></data>
+  <data name="VIN" xml:space="preserve"><value>VIN</value></data>
+  <data name="RegularPrice" xml:space="preserve"><value>Regular Price</value></data>
+  <data name="ViewCar" xml:space="preserve"><value>View Car</value></data>
+  <data name="SalesAgent" xml:space="preserve"><value>Sales Agent</value></data>
+  <data name="Department" xml:space="preserve"><value>Department</value></data>
+  <data name="TermsAndConditions" xml:space="preserve"><value>Terms and Conditions</value></data>
+  <data name="ApplyForThisOffer" xml:space="preserve"><value>Apply for This Offer</value></data>
+  <data name="EditOffer" xml:space="preserve"><value>Edit Offer</value></data>
+  <data name="DeleteOffer" xml:space="preserve"><value>Delete Offer</value></data>
+  <data name="BackToOffers" xml:space="preserve"><value>Back to Offers</value></data>
+  <data name="Timeline" xml:space="preserve"><value>Timeline</value></data>
+  <data name="Starts" xml:space="preserve"><value>Starts</value></data>
+  <data name="Ends" xml:space="preserve"><value>Ends</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="CallSalesAgent" xml:space="preserve"><value>Call Sales Agent</value></data>
+  <data name="EmailAgent" xml:space="preserve"><value>Email Agent</value></data>
+  <data name="ShareOffer" xml:space="preserve"><value>Share Offer</value></data>
+  <data name="ApplyFor" xml:space="preserve"><value>Apply for</value></data>
+  <data name="AdditionalNotesOptional" xml:space="preserve"><value>Additional Notes (Optional)</value></data>
+  <data name="AnyAdditionalInfo" xml:space="preserve"><value>Any additional information or special requests...</value></data>
+  <data name="AgreeToTerms" xml:space="preserve"><value>I agree to the terms and conditions of this offer</value></data>
+  <data name="SubmitApplication" xml:space="preserve"><value>Submit Application</value></data>
+  <data name="OfferNotFound" xml:space="preserve"><value>Offer Not Found</value></data>
+  <data name="OfferNotFoundDesc" xml:space="preserve"><value>The requested offer could not be found.</value></data>
+  <data name="ShowInterest" xml:space="preserve"><value>Show Interest</value></data>
+  <data name="Interested!" xml:space="preserve"><value>Interested!</value></data>
+  <data name="PleaseAgreeToTerms" xml:space="preserve"><value>Please agree to the terms and conditions</value></data>
+  <data name="ApplicationSubmittedSuccessfully" xml:space="preserve"><value>Application submitted successfully!</value></data>
+  <data name="Applicants" xml:space="preserve"><value>Applicants</value></data>
+  <data name="NoApplicantsYet" xml:space="preserve"><value>No applicants yet</value></data>
+</root>

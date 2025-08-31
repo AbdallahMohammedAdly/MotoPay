@@ -1,0 +1,206 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.Cars.DeleteModel
+@{
+    ViewData["Title"] = $"Delete Car - {Model.Car?.DisplayName}";
+}
+
+@if (Model.Car == null)
+{
+    <div class="text-center py-5">
+        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+        <h3>Car Not Found</h3>
+        <p>The requested car could not be found.</p>
+        <a asp-page="./Index" class="btn btn-primary">Back to Cars</a>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Delete Car Confirmation
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-warning"></i>
+                        <strong>Warning!</strong> You are about to permanently delete this car from the system. This action cannot be undone.
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5 class="text-danger mb-3">Car Information</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold">Vehicle:</td>
+                                    <td>@Model.Car.DisplayName</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Color:</td>
+                                    <td>@Model.Car.Color</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">VIN:</td>
+                                    <td><code>@Model.Car.VinNumber</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Price:</td>
+                                    <td class="text-success fw-bold">@Model.Car.Price.ToString("C")</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Status:</td>
+                                    <td>
+                                        @if (Model.Car.IsAvailable)
+                                        {
+                                            <span class="badge bg-success">Available</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">Sold</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-danger mb-3">Impact Assessment</h5>
+                            <div class="list-group list-group-flush">
+                                @if (!string.IsNullOrEmpty(Model.Car.SalesAgentName))
+                                {
+                                    <div class="list-group-item">
+                                        <i class="fas fa-user-tie text-info"></i>
+                                        <strong>Sales Agent:</strong> @Model.Car.SalesAgentName
+                                        <div class="text-muted small">Will be unassigned from this car</div>
+                                    </div>
+                                }
+                                
+                                @if (!string.IsNullOrEmpty(Model.Car.OwnerName))
+                                {
+                                    <div class="list-group-item">
+                                        <i class="fas fa-user text-secondary"></i>
+                                        <strong>Owner:</strong> @Model.Car.OwnerName
+                                        <div class="text-muted small">Ownership record will be removed</div>
+                                    </div>
+                                }
+                                
+                                @if (Model.ActiveOffersCount > 0)
+                                {
+                                    <div class="list-group-item border-warning">
+                                        <i class="fas fa-tags text-warning"></i>
+                                        <strong>Active Offers:</strong> @Model.ActiveOffersCount
+                                        <div class="text-warning small">All related offers will be deleted</div>
+                                    </div>
+                                }
+                                
+                                @if (Model.ApplicationsCount > 0)
+                                {
+                                    <div class="list-group-item border-danger">
+                                        <i class="fas fa-file-alt text-danger"></i>
+                                        <strong>Applications:</strong> @Model.ApplicationsCount
+                                        <div class="text-danger small">All related applications will be deleted</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.HasDependencies)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Dependencies Found:</strong> This car has related data that will also be deleted. 
+                            Please review the impact assessment above before proceeding.
+                        </div>
+                    }
+
+                    <div class="border-top pt-3">
+                        <h6 class="text-muted">Description</h6>
+                        <p class="text-muted">@Model.Car.Description</p>
+                    </div>
+                </div>
+                <div class="card-footer bg-light">
+                    <form method="post" class="d-inline">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a asp-page="./Details" asp-route-id="@Model.Car.Id" class="btn btn-info">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                <a asp-page="./Edit" asp-route-id="@Model.Car.Id" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Edit Instead
+                                </a>
+                                <a asp-page="./Index" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Cancel
+                                </a>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                    <i class="fas fa-trash"></i> Delete Car
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation Modal -->
+                        <div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title">
+                                            <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you absolutely sure you want to delete <strong>@Model.Car.DisplayName</strong>?</p>
+                                        <p class="text-danger">
+                                            <i class="fas fa-warning"></i>
+                                            This action is permanent and cannot be undone.
+                                        </p>
+                                        @if (Model.HasDependencies)
+                                        {
+                                            <p class="text-warning">
+                                                <i class="fas fa-info-circle"></i>
+                                                This will also delete @Model.ActiveOffersCount offer(s) and @Model.ApplicationsCount application(s).
+                                            </p>
+                                        }
+                                        
+                                        <div class="form-check mt-3">
+                                            <input class="form-check-input" type="checkbox" id="confirmCheckbox" required>
+                                            <label class="form-check-label" for="confirmCheckbox">
+                                                I understand this action is permanent
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-danger" id="confirmDeleteBtn" disabled>
+                                            <i class="fas fa-trash"></i> Yes, Delete Car
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmCheckbox = document.getElementById('confirmCheckbox');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            
+            if (confirmCheckbox && confirmDeleteBtn) {
+                confirmCheckbox.addEventListener('change', function() {
+                    confirmDeleteBtn.disabled = !this.checked;
+                });
+            }
+        });
+    </script>
+}

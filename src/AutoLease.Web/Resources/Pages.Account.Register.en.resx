@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Register" xml:space="preserve"><value>Register</value></data>
+  <data name="CreateYourAccount" xml:space="preserve"><value>Create Your AutoLease Account</value></data>
+  <data name="SelectYourRole" xml:space="preserve"><value>Select your role</value></data>
+  <data name="RoleClientOption" xml:space="preserve"><value>Client - I want to lease vehicles</value></data>
+  <data name="RoleSalesAgentOption" xml:space="preserve"><value>Sales Agent - I want to manage leases</value></data>
+  <data name="Client" xml:space="preserve"><value>Client</value></data>
+  <data name="ClientDesc" xml:space="preserve"><value>Browse and apply for vehicle leases</value></data>
+  <data name="SalesAgent" xml:space="preserve"><value>Sales Agent</value></data>
+  <data name="SalesAgentDesc" xml:space="preserve"><value>Manage vehicles, offers, and client applications</value></data>
+  <data name="CreateAccount" xml:space="preserve"><value>Create Account</value></data>
+  <data name="AlreadyHaveAccount" xml:space="preserve"><value>Already have an account?</value></data>
+  <data name="SignInHere" xml:space="preserve"><value>Sign in here</value></data>
+</root>

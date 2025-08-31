@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ClientInterests" xml:space="preserve"><value>اهتمامات العملاء</value></data>
+  <data name="InterestedClients" xml:space="preserve"><value>العملاء المهتمون</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>ابحث حسب العميل أو السيارة أو البريد الإلكتروني</value></data>
+  <data name="LastNDays" xml:space="preserve"><value>آخر {0} يومًا</value></data>
+  <data name="All" xml:space="preserve"><value>الكل</value></data>
+  <data name="Filter" xml:space="preserve"><value>تصفية</value></data>
+  <data name="RecentInterestsCount" xml:space="preserve"><value>الاهتمامات الحديثة ({0})</value></data>
+  <data name="Date" xml:space="preserve"><value>التاريخ</value></data>
+  <data name="Client" xml:space="preserve"><value>العميل</value></data>
+  <data name="Contact" xml:space="preserve"><value>وسائل الاتصال</value></data>
+  <data name="Car" xml:space="preserve"><value>السيارة</value></data>
+  <data name="PreferredCall" xml:space="preserve"><value>وقت الاتصال المفضل</value></data>
+  <data name="Notes" xml:space="preserve"><value>الملاحظات</value></data>
+  <data name="Documents" xml:space="preserve"><value>المستندات</value></data>
+  <data name="NoInterestsFound" xml:space="preserve"><value>لا توجد اهتمامات للفترة المحددة.</value></data>
+  <data name="View" xml:space="preserve"><value>عرض</value></data>
+  <data name="None" xml:space="preserve"><value>لا يوجد</value></data>
+  <data name="DocNumber" xml:space="preserve"><value>مستند {0}</value></data>
+</root>

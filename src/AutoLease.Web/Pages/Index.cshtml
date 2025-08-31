@@ -1,0 +1,99 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to AutoLease</h1>
+    <p class="lead">Your premier destination for quality vehicle leasing and sales.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Browse Cars</h5>
+                <p class="card-text">Explore our extensive inventory of quality vehicles available for lease or purchase.</p>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-page="/Cars/Index" class="btn btn-primary">View Cars</a>
+                }
+                else
+                {
+                    <a asp-page="/Account/Login" class="btn btn-primary">Login to Browse</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Secure Payments</h5>
+                <p class="card-text">Safe and secure payment processing powered by Stripe for all your transactions.</p>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-page="/Payment/Checkout" class="btn btn-primary">Make Payment</a>
+                }
+                else
+                {
+                    <a asp-page="/Account/Register" class="btn btn-primary">Register Now</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Expert Service</h5>
+                <p class="card-text">Our experienced sales agents are here to help you find the perfect vehicle.</p>
+                @if (User.IsInRole("SalesAgent"))
+                {
+                    <a asp-page="/SalesAgents/Index" class="btn btn-primary">Manage Agents</a>
+                }
+                else
+                {
+                    <a asp-page="/Account/Register" class="btn btn-primary">Join Our Team</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!User.Identity?.IsAuthenticated == true)
+{
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h3>Get Started Today</h3>
+            <p class="lead">Join AutoLease and discover your next vehicle.</p>
+            <div class="btn-group" role="group">
+                <a asp-page="/Account/Login" class="btn btn-outline-primary btn-lg">Login</a>
+                <a asp-page="/Account/Register" class="btn btn-primary btn-lg">Register</a>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3 class="text-center mb-4">Why Choose AutoLease?</h3>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <h5>Quality Vehicles</h5>
+                <p>Carefully inspected and maintained vehicles from trusted sources.</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <h5>Competitive Pricing</h5>
+                <p>Fair and transparent pricing with no hidden fees.</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <h5>Expert Support</h5>
+                <p>Knowledgeable sales agents to guide you through the process.</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <h5>Secure Transactions</h5>
+                <p>Safe and secure payment processing for your peace of mind.</p>
+            </div>
+        </div>
+    </div>
+</div>

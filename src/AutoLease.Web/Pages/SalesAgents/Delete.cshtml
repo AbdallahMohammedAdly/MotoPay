@@ -1,0 +1,168 @@
+@page "{id:int}"
+@model AutoLease.Web.Pages.SalesAgents.DeleteModel
+@{
+    ViewData["Title"] = "Delete Sales Agent";
+}
+
+@if (Model.SalesAgent != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-warning"></i> Warning!</h5>
+                        <p>You are about to permanently delete the following sales agent. This action cannot be undone.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Sales Agent Information</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Name:</strong></td>
+                                    <td>@Model.SalesAgent.FullName</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>@Model.SalesAgent.Email</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department:</strong></td>
+                                    <td><span class="badge bg-primary">@Model.SalesAgent.Department</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Commission Rate:</strong></td>
+                                    <td>@Model.SalesAgent.CommissionRate%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Sales:</strong></td>
+                                    <td class="text-success fw-bold">@Model.SalesAgent.TotalSales.ToString("C")</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Impact Assessment</h5>
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-info-circle"></i> What will happen:</h6>
+                                <ul class="mb-0">
+                                    <li><strong>@Model.AssignedCarsCount cars</strong> will be unassigned from this agent</li>
+                                    <li><strong>@Model.ActiveOffersCount active offers</strong> will remain but lose agent association</li>
+                                    <li>Historical sales data will be preserved</li>
+                                    <li>User account (if linked) will remain active</li>
+                                </ul>
+                            </div>
+                            
+                            @if (Model.AssignedCarsCount > 0 || Model.ActiveOffersCount > 0)
+                            {
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>High Impact Deletion!</strong><br>
+                                    This agent has active assignments that will be affected.
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <form method="post" class="mt-4">
+                        <input type="hidden" asp-for="SalesAgent.Id" />
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="confirmDelete" name="confirmDelete" required>
+                            <label class="form-check-label fw-bold text-danger" for="confirmDelete">
+                                I understand that this action cannot be undone and confirm the deletion of @Model.SalesAgent.FullName
+                            </label>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger" id="deleteButton" disabled>
+                                <i class="fas fa-trash"></i> Permanently Delete Sales Agent
+                            </button>
+                            <a asp-page="./Details" asp-route-id="@Model.SalesAgent.Id" class="btn btn-info">
+                                <i class="fas fa-eye"></i> View Details Instead
+                            </a>
+                            <a asp-page="./Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history"></i> Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentCars.Any())
+                    {
+                        <h6>Recently Managed Cars:</h6>
+                        @foreach (var car in Model.RecentCars.Take(5))
+                        {
+                            <div class="d-flex justify-content-between align-items-center py-1 small">
+                                <span>@car.DisplayName</span>
+                                <span class="badge bg-light text-dark">@car.Price.ToString("C")</span>
+                            </div>
+                        }
+                        @if (Model.RecentCars.Count > 5)
+                        {
+                            <small class="text-muted">... and @(Model.RecentCars.Count - 5) more</small>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted small">No recent activity</p>
+                    }
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle"></i> Need Help?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="small">
+                        If you're unsure about deleting this sales agent, consider:
+                    </p>
+                    <ul class="small">
+                        <li>Transferring their cars to another agent first</li>
+                        <li>Completing any pending offers</li>
+                        <li>Archiving instead of deleting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <h4>Sales Agent Not Found</h4>
+        <p>The requested sales agent could not be found.</p>
+        <a asp-page="./Index" class="btn btn-primary">Back to Sales Agents</a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('confirmDelete');
+            const deleteButton = document.getElementById('deleteButton');
+            
+            checkbox.addEventListener('change', function() {
+                deleteButton.disabled = !this.checked;
+            });
+        });
+    </script>
+}

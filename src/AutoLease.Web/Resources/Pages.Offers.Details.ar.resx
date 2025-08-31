@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="OfferDetails" xml:space="preserve"><value>تفاصيل العرض</value></data>
+  <data name="Created" xml:space="preserve"><value>تم الإنشاء</value></data>
+  <data name="PricingDetails" xml:space="preserve"><value>تفاصيل التسعير</value></data>
+  <data name="Save" xml:space="preserve"><value>وفر</value></data>
+  <data name="OfferStatistics" xml:space="preserve"><value>إحصائيات العرض</value></data>
+  <data name="Applications" xml:space="preserve"><value>الطلبات</value></data>
+  <data name="Remaining" xml:space="preserve"><value>المتبقي</value></data>
+  <data name="Of" xml:space="preserve"><value>من</value></data>
+  <data name="SlotsFilled" xml:space="preserve"><value>من الخانات ممتلئة</value></data>
+  <data name="Description" xml:space="preserve"><value>الوصف</value></data>
+  <data name="VehicleDetails" xml:space="preserve"><value>تفاصيل المركبة</value></data>
+  <data name="Year" xml:space="preserve"><value>السنة</value></data>
+  <data name="Color" xml:space="preserve"><value>اللون</value></data>
+  <data name="VIN" xml:space="preserve"><value>رقم الهيكل</value></data>
+  <data name="RegularPrice" xml:space="preserve"><value>السعر الاعتيادي</value></data>
+  <data name="ViewCar" xml:space="preserve"><value>عرض المركبة</value></data>
+  <data name="SalesAgent" xml:space="preserve"><value>مندوب المبيعات</value></data>
+  <data name="Department" xml:space="preserve"><value>القسم</value></data>
+  <data name="TermsAndConditions" xml:space="preserve"><value>الشروط والأحكام</value></data>
+  <data name="ApplyForThisOffer" xml:space="preserve"><value>التقديم على هذا العرض</value></data>
+  <data name="EditOffer" xml:space="preserve"><value>تعديل العرض</value></data>
+  <data name="DeleteOffer" xml:space="preserve"><value>حذف العرض</value></data>
+  <data name="BackToOffers" xml:space="preserve"><value>الرجوع إلى العروض</value></data>
+  <data name="Timeline" xml:space="preserve"><value>المخطط الزمني</value></data>
+  <data name="Starts" xml:space="preserve"><value>يبدأ</value></data>
+  <data name="Ends" xml:space="preserve"><value>ينتهي</value></data>
+  <data name="Status" xml:space="preserve"><value>الحالة</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>إجراءات سريعة</value></data>
+  <data name="CallSalesAgent" xml:space="preserve"><value>الاتصال بمندوب المبيعات</value></data>
+  <data name="EmailAgent" xml:space="preserve"><value>مراسلة الوكيل</value></data>
+  <data name="ShareOffer" xml:space="preserve"><value>مشاركة العرض</value></data>
+  <data name="ApplyFor" xml:space="preserve"><value>التقديم لـ</value></data>
+  <data name="AdditionalNotesOptional" xml:space="preserve"><value>ملاحظات إضافية (اختياري)</value></data>
+  <data name="AnyAdditionalInfo" xml:space="preserve"><value>أي معلومات إضافية أو طلبات خاصة...</value></data>
+  <data name="AgreeToTerms" xml:space="preserve"><value>أوافق على الشروط والأحكام لهذا العرض</value></data>
+  <data name="SubmitApplication" xml:space="preserve"><value>إرسال الطلب</value></data>
+  <data name="OfferNotFound" xml:space="preserve"><value>العرض غير موجود</value></data>
+  <data name="OfferNotFoundDesc" xml:space="preserve"><value>تعذر العثور على العرض المطلوب.</value></data>
+  <data name="ShowInterest" xml:space="preserve"><value>إبداء الاهتمام</value></data>
+  <data name="Interested!" xml:space="preserve"><value>مهتم!</value></data>
+  <data name="PleaseAgreeToTerms" xml:space="preserve"><value>يرجى الموافقة على الشروط والأحكام</value></data>
+  <data name="ApplicationSubmittedSuccessfully" xml:space="preserve"><value>تم إرسال الطلب بنجاح!</value></data>
+  <data name="Applicants" xml:space="preserve"><value>المتقدمون</value></data>
+  <data name="NoApplicantsYet" xml:space="preserve"><value>لا يوجد متقدمون حتى الآن</value></data>
+</root>

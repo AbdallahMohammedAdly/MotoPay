@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="CarNotFound" xml:space="preserve"><value>Car Not Found</value></data>
+  <data name="CarNotFoundDesc" xml:space="preserve"><value>The requested car could not be found.</value></data>
+  <data name="BackToCars" xml:space="preserve"><value>Back to Cars</value></data>
+  <data name="Gallery" xml:space="preserve"><value>Gallery</value></data>
+  <data name="Previous" xml:space="preserve"><value>Previous</value></data>
+  <data name="Next" xml:space="preserve"><value>Next</value></data>
+  <data name="Available" xml:space="preserve"><value>Available</value></data>
+  <data name="Sold" xml:space="preserve"><value>Sold</value></data>
+  <data name="VehicleInformation" xml:space="preserve"><value>Vehicle Information</value></data>
+  <data name="Make" xml:space="preserve"><value>Make</value></data>
+  <data name="Model" xml:space="preserve"><value>Model</value></data>
+  <data name="Year" xml:space="preserve"><value>Year</value></data>
+  <data name="Color" xml:space="preserve"><value>Color</value></data>
+  <data name="VIN" xml:space="preserve"><value>VIN</value></data>
+  <data name="PricingAndStatus" xml:space="preserve"><value>Pricing &amp; Status</value></data>
+  <data name="Price" xml:space="preserve"><value>Price</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="AvailableForPurchase" xml:space="preserve"><value>Available for Purchase</value></data>
+  <data name="Added" xml:space="preserve"><value>Added</value></data>
+  <data name="Updated" xml:space="preserve"><value>Updated</value></data>
+  <data name="Description" xml:space="preserve"><value>Description</value></data>
+  <data name="SalesAgent" xml:space="preserve"><value>Sales Agent</value></data>
+  <data name="AssignedSalesRepresentative" xml:space="preserve"><value>Assigned Sales Representative</value></data>
+  <data name="ContactAgent" xml:space="preserve"><value>Contact Agent</value></data>
+  <data name="Owner" xml:space="preserve"><value>Owner</value></data>
+  <data name="ThisVehicleHasBeenSold" xml:space="preserve"><value>This vehicle has been sold</value></data>
+  <data name="ActiveOffers" xml:space="preserve"><value>Active Offers</value></data>
+  <data name="ViewOffer" xml:space="preserve"><value>View Offer</value></data>
+  <data name="Actions" xml:space="preserve"><value>Actions</value></data>
+  <data name="EditCar" xml:space="preserve"><value>Edit Car</value></data>
+  <data name="CreateOffer" xml:space="preserve"><value>Create Offer</value></data>
+  <data name="DeleteCar" xml:space="preserve"><value>Delete Car</value></data>
+  <data name="ShowInterest" xml:space="preserve"><value>Show Interest</value></data>
+  <data name="ApplyForOffer" xml:space="preserve"><value>Apply for Offer</value></data>
+  <data name="BackToList" xml:space="preserve"><value>Back to List</value></data>
+  <data name="ExpressInterestFor" xml:space="preserve"><value>Express Interest for</value></data>
+  <data name="PreferredTimeToCall" xml:space="preserve"><value>Preferred time to call</value></data>
+  <data name="ChooseSuitableTime" xml:space="preserve"><value>Choose a suitable time within your availability</value></data>
+  <data name="UploadDocumentsImagesPdf" xml:space="preserve"><value>Upload documents (images or PDF)</value></data>
+  <data name="SupportedFilesAndLimit" xml:space="preserve"><value>Supported: JPG, PNG, GIF, WEBP, PDF. Max 10MB each.</value></data>
+  <data name="NotesOptional" xml:space="preserve"><value>Notes (Optional)</value></data>
+  <data name="AnyAdditionalInfo" xml:space="preserve"><value>Any additional information or special requests...</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Send" xml:space="preserve"><value>Send</value></data>
+  <data name="ClickToCopyVIN" xml:space="preserve"><value>Click to copy VIN</value></data>
+  <data name="Copied" xml:space="preserve"><value>Copied!</value></data>
+</root>
